@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkWave — Админ-панель</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand"><span>✍️ InkWave</span></div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><span class="icon">📊</span><span>Дашборд</span></a>
+                <a href="books.html"><span class="icon">📚</span><span>Мои книги</span></a>
+                <a href="editor.html"><span class="icon">✍️</span><span>Написать книгу</span></a>
+                <a href="admin.html" class="active"><span class="icon">🛡️</span><span>Модерация</span></a>
+                <a href="profile.html"><span class="icon">👤</span><span>Профиль</span></a>
+            </nav>
+            <div class="sidebar-logout" onclick="logout()"><span class="icon">🚪</span><span>Выйти</span></div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>🛡️ Книги на модерации</h1>
+                <span style="color: var(--gray);" id="moderationCount">Загрузка...</span>
+            </header>
+            <div class="moderation-list" id="moderationList">
+                <!-- Заполняется JS -->
+            </div>
+        </main>
+    </div>
+
+    <div class="modal" id="rejectModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>❌ Отклонить книгу</h3>
+                <button class="modal-close" onclick="closeRejectModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label for="rejectReason">Причина отклонения</label>
+                <textarea id="rejectReason" placeholder="Укажите причину..." style="min-height: 80px;"></textarea>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end;">
+                <button class="btn-secondary" onclick="closeRejectModal()">Отмена</button>
+                <button class="btn-danger" id="confirmRejectBtn">Отклонить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://gnuopbwpvpwpaxafkfcx.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_h3eKNRH-lO4IV3Ebeg9AYg_FSwRbVsz';
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ supabase создан в admin.html');
+    </script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

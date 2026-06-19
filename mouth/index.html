@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkWave — Вход</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-logo">
+            <h1>✍️ InkWave</h1>
+            <p>Панель управления автора</p>
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="example@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%;">Войти</button>
+        </form>
+        <div style="text-align: center; margin-top: 16px; font-size: 12px; color: var(--gray);">
+            Тестовые данные: <strong>author@inkwave.com</strong> / <strong>password123</strong><br>
+            <span style="font-size: 11px; color: #9CA3AF;">Админ: admin@inkwave.com / password</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ====== ПРАВИЛЬНЫЙ PROJECT ID ======
+        const projectId = 'gnuopbwpvpwpaxafkfcx';
+        const url = `https://${projectId}.supabase.co`;
+        const key = 'sb_publishable_h3eKNRH-lO4IV3Ebeg9AYg_FSwRbVsz';
+        
+        console.log('📡 Project ID:', projectId);
+        console.log('📡 URL:', url);
+        console.log('🔑 KEY:', key);
+        
+        const sb = window.supabase.createClient(url, key);
+        console.log('✅ sb создан');
+        
+        document.getElementById('loginForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                console.log('🔍 Попытка входа:', email);
+                const { data, error } = await sb.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                
+                // ====== ПОЛУЧАЕМ ПРОФИЛЬ ИЗ БД ======
+                const { data: profile, error: profileError } = await sb
+                    .from('profiles')
+                    .select('name, role')
+                    .eq('id', data.user.id)
+                    .single();
+                
+                if (profileError) {
+                    console.warn('⚠️ Профиль не найден, используем данные по умолчанию');
+                }
+                
+                const user = { 
+                    id: data.user.id, 
+                    email: data.user.email, 
+                    name: profile?.name || 'Пользователь', 
+                    role: profile?.role || 'author' 
+                };
+                
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                console.log('✅ Вход успешен!', user);
+                
+                // ====== РЕДИРЕКТ В ЗАВИСИМОСТИ ОТ РОЛИ ======
+                if (user.role === 'admin') {
+                    console.log('👑 Админ → перенаправление в админ-панель');
+                    window.location.href = 'admin.html';
+                } else {
+                    console.log('📚 Автор → перенаправление в дашборд');
+                    window.location.href = 'dashboard.html';
+                }
+                
+            } catch (err) {
+                console.error('❌ Ошибка:', err);
+                alert('❌ Ошибка: ' + err.message);
+            }
+        };
+    </script>
+</body>
+</html>

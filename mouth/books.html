@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkWave — Мои книги</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand"><span>✍️ InkWave</span></div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><span class="icon">📊</span><span>Дашборд</span></a>
+                <a href="books.html" class="active"><span class="icon">📚</span><span>Мои книги</span></a>
+                <a href="editor.html"><span class="icon">✍️</span><span>Написать книгу</span></a>
+                <a href="admin.html"><span class="icon">🛡️</span><span>Модерация</span></a>
+                <a href="profile.html"><span class="icon">👤</span><span>Профиль</span></a>
+            </nav>
+            <div class="sidebar-logout" onclick="logout()"><span class="icon">🚪</span><span>Выйти</span></div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>📚 Мои книги</h1>
+                <button class="btn-primary" onclick="window.location.href='editor.html'">➕ Новая книга</button>
+            </header>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Дата создания</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booksTableBody">
+                        <!-- Заполняется JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Подтверждение удаления</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <p>Вы уверены, что хотите удалить книгу <strong id="deleteBookTitle"></strong>?</p>
+            <p style="font-size: 13px; color: var(--gray);">Это действие нельзя отменить!</p>
+            <div style="display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end;">
+                <button class="btn-secondary" onclick="closeModal()">Отмена</button>
+                <button class="btn-danger" id="confirmDeleteBtn">Удалить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://gnuopbwpvpwpaxafkfcx.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_h3eKNRH-lO4IV3Ebeg9AYg_FSwRbVsz';
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('✅ supabase создан в books.html');
+    </script>
+    <script src="js/books.js"></script>
+</body>
+</html>

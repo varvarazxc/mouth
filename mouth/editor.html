@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkWave — Редактор</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-brand"><span>✍️ InkWave</span></div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html"><span class="icon">📊</span><span>Дашборд</span></a>
+                <a href="books.html"><span class="icon">📚</span><span>Мои книги</span></a>
+                <a href="editor.html" class="active"><span class="icon">✍️</span><span>Написать книгу</span></a>
+                <a href="admin.html"><span class="icon">🛡️</span><span>Модерация</span></a>
+                <a href="profile.html"><span class="icon">👤</span><span>Профиль</span></a>
+            </nav>
+            <div class="sidebar-logout" onclick="logout()"><span class="icon">🚪</span><span>Выйти</span></div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <h1>✍️ Редактор</h1>
+                <div>
+                    <button class="btn-secondary" onclick="saveDraft()">💾 Сохранить черновик</button>
+                    <button class="btn-primary" onclick="publishBook()">🚀 Опубликовать</button>
+                </div>
+            </header>
+
+            <div class="editor-layout">
+                <div class="chapters-list">
+                    <h4 style="margin-bottom: 12px;">Оглавление</h4>
+                    <button class="btn-secondary" style="width: 100%; margin-bottom: 12px;" onclick="addChapter()">
+                        ➕ Добавить главу
+                    </button>
+                    <div id="chaptersContainer">
+                        <!-- Заполняется JS -->
+                    </div>
+                </div>
+
+                <div class="editor-area">
+                    <div class="form-group">
+                        <label for="bookTitle">Название книги</label>
+                        <input type="text" id="bookTitle" placeholder="Введите название книги...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookCover">Обложка</label>
+                        <input type="file" id="bookCover" accept="image/*" onchange="previewCover(event)">
+                        <div id="coverPreview" style="margin-top: 8px;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bookDescription">Описание</label>
+                        <textarea id="bookDescription" placeholder="Краткое описание книги..."></textarea>
+                    </div>
+
+                    <div class="form-group" style="flex: 1;">
+                        <label for="chapterContent">Текст главы</label>
+                        <textarea id="chapterContent" placeholder="Введите текст главы..." style="min-height: 200px;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 12px;">
+                        <button class="btn-secondary" onclick="saveChapter()">💾 Сохранить главу</button>
+                        <span style="color: var(--gray); font-size: 14px; display: flex; align-items: center;" id="chapterStatus">Глава не сохранена</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ====== ПОДКЛЮЧЕНИЕ СКРИПТОВ ====== -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // ====== НАСТРОЙКИ SUPABASE ======
+        const SUPABASE_URL = 'https://gnuopbwpvpwpaxafkfcx.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_h3eKNRH-lO4IV3Ebeg9AYg_FSwRbVsz';
+        
+        console.log('⏳ Создаём supabase в editor.html...');
+        
+        // СОЗДАЁМ КЛИЕНТ И СОХРАНЯЕМ В ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ
+        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        console.log('✅ supabase создан в editor.html');
+        console.log('🔍 window.supabaseClient:', window.supabaseClient);
+    </script>
+    
+    <script src="js/editor.js"></script>
+</body>
+</html>

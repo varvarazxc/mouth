@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InkWave — Дашборд</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Боковое меню -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span>✍️ InkWave</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="active">
+                    <span class="icon">📊</span>
+                    <span>Дашборд</span>
+                </a>
+                <a href="books.html">
+                    <span class="icon">📚</span>
+                    <span>Мои книги</span>
+                </a>
+                <a href="editor.html">
+                    <span class="icon">✍️</span>
+                    <span>Написать книгу</span>
+                </a>
+                <a href="admin.html">                    
+        <span class="icon">🛡️</span>
+        <span>Модерация</span>
+    </a>
+                <a href="profile.html">
+                    <span class="icon">👤</span>
+                    <span>Профиль</span>
+                </a>
+            </nav>
+            <div class="sidebar-logout" onclick="logout()">
+                <span class="icon">🚪</span>
+                <span>Выйти</span>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Добро пожаловать, <span id="userName">Автор</span>!</h1>
+                <div class="header-user">
+                    <div class="avatar" id="userAvatar">А</div>
+                    <span id="userEmail">author@inkwave.com</span>
+                </div>
+            </header>
+
+            <!-- Статистика -->
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-number" id="statBooks">0</div>
+                    <div class="stat-label">📚 Книг</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statViews">0</div>
+                    <div class="stat-label">👁️ Просмотров</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statLikes">0</div>
+                    <div class="stat-label">❤️ Лайков</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statDrafts">0</div>
+                    <div class="stat-label">✍️ Черновиков</div>
+                </div>
+            </div>
+
+            <!-- График (заглушка) -->
+            <div class="card" style="margin-bottom: 32px;">
+                <h3 style="margin-bottom: 16px;">📈 Просмотры за неделю</h3>
+                <div style="display: flex; gap: 12px; align-items: flex-end; height: 200px;">
+                    <div style="flex:1; background: var(--primary); height: 40px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="flex:1; background: var(--primary); height: 80px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="flex:1; background: var(--primary); height: 150px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="flex:1; background: var(--primary); height: 120px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="flex:1; background: var(--primary); height: 180px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="flex:1; background: var(--primary); height: 90px; border-radius: 4px 4px 0 0;"></div>
+                    <div style="flex:1; background: var(--primary); height: 160px; border-radius: 4px 4px 0 0;"></div>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 8px;">
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Пн</span>
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Вт</span>
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Ср</span>
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Чт</span>
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Пт</span>
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Сб</span>
+                    <span style="flex:1; text-align: center; font-size: 12px; color: var(--gray);">Вс</span>
+                </div>
+            </div>
+
+            <!-- Последние комментарии -->
+            <div class="card">
+                <h3 style="margin-bottom: 16px;">💬 Последние комментарии</h3>
+                <div id="recentComments">
+                    <p style="color: var(--gray);">Нет комментариев</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ====== ТОЛЬКО ЭТИ СКРИПТЫ ====== -->
+    <script>
+        // ====== ПРОВЕРКА АВТОРИЗАЦИИ ======
+        const user = JSON.parse(sessionStorage.getItem('currentUser'));
+        console.log('🔍 Пользователь в dashboard:', user);
+        
+        if (!user) {
+            console.log('❌ Пользователь не найден, редирект на вход');
+            window.location.href = 'index.html';
+        } else {
+            console.log('✅ Пользователь найден:', user);
+            document.getElementById('userName').textContent = user.name || 'Автор';
+            document.getElementById('userEmail').textContent = user.email || '';
+            document.getElementById('userAvatar').textContent = (user.name || 'А').charAt(0);
+        }
+
+        function logout() {
+            if (confirm('Вы уверены, что хотите выйти?')) {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
