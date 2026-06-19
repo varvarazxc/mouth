@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Обложка (заглушка) -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="📖"
+                android:textSize="64sp"
+                android:background="#2D4A8C"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Название -->
+        <TextView
+            android:id="@+id/tvBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Название книги"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A1A"/>
+
+        <!-- Автор -->
+        <TextView
+            android:id="@+id/tvBookAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="✍️ Автор"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp"/>
+
+        <!-- Статистика -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/tvBookViews"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="👁️ 0"
+                android:textSize="14sp"
+                android:textColor="#666666"/>
+
+            <TextView
+                android:id="@+id/tvBookLikes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="❤️ 0"
+                android:textSize="14sp"
+                android:textColor="#666666"/>
+
+        </LinearLayout>
+
+        <!-- Описание -->
+        <TextView
+            android:id="@+id/tvBookDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Описание книги..."
+            android:textSize="15sp"
+            android:textColor="#333333"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- Кнопки -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRead"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="2"
+                android:text="📖 Читать"
+                android:textSize="16sp"
+                app:cornerRadius="8dp"
+                android:backgroundTint="#1A2A6C"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLike"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="❤️"
+                android:textSize="20sp"
+                app:cornerRadius="8dp"
+                android:backgroundTint="#EF4444"
+                android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnComment"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:text="💬"
+                android:textSize="20sp"
+                app:cornerRadius="8dp"
+                android:backgroundTint="#10B981"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
